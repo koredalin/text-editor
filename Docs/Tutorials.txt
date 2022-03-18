@@ -1,0 +1,5 @@
+Execute php script in a bat file
+https://wiki.planetoid.info/index.php/Execute_php_script_in_a_bat_file
+
+Example #3 Batch file to run a command line PHP script (script.bat)
+https://www.php.net/manual/en/features.commandline.usage.php#example-462

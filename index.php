@@ -1,0 +1,3 @@
+<?php
+print_r($argv);
+// echo 'var1: '.$var1.' | var2: '.$var2.'|';
