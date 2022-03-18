@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\InputArgumentsInterface;
 use App\Common\Commands;
 use App\Common\StreamConfiguration;
 use App\Exceptions\NotValidInputException;
@@ -12,8 +11,10 @@ use App\Exceptions\NotValidInputException;
  *
  * @author Hristo
  */
-class InputArguments implements InputArgumentsInterface
+final class InputArguments
 {
+    private array $commandArguments;
+    
     private bool $isEdit;
     
     private bool $isResultPrint;
@@ -26,8 +27,9 @@ class InputArguments implements InputArgumentsInterface
     
     private string $inputFilePath;
     
-    public function __construct()
+    public function setCommandArguments(array $commandArguments)
     {
+        $this->commandArguments = $commandArguments;
         $this->setDefaultProperties();
         $this->setProperties();
     }
@@ -76,14 +78,13 @@ class InputArguments implements InputArgumentsInterface
     
     private function setConfigurationParameters(): void
     {
-        global $argv;
-        $isParameter = isset($argv[1]) && in_array((string)$argv[1], StreamConfiguration::ALL_PARAMETERS, true);
+        $isParameter = isset($this->commandArguments[1]) && in_array((string)$this->commandArguments[1], StreamConfiguration::ALL_PARAMETERS, true);
         if (!$isParameter) {
             return;
         }
         
         $this->isConfigurationParameter = true;
-        $parameter = (string)$argv[1];
+        $parameter = (string)$this->commandArguments[1];
         if ($isParameter && $parameter === StreamConfiguration::EDIT_IN_PLACE) {
             $this->isEdit = true;
             $this->isResultPrint = false;
@@ -92,9 +93,8 @@ class InputArguments implements InputArgumentsInterface
     
     private function setCommandWithParameters(): void
     {
-        global $argv;
-        $firstArgument = !$this->isConfigurationParameter && isset($argv[1]) ? explode($argv[1]) : [];
-        $secondArgument = $this->isConfigurationParameter && isset($argv[2]) ? explode($argv[2]) : [];
+        $firstArgument = !$this->isConfigurationParameter && isset($this->commandArguments[1]) ? explode('/', $this->commandArguments[1]) : [];
+        $secondArgument = $this->isConfigurationParameter && isset($this->commandArguments[2]) ? explode('/', $this->commandArguments[2]) : [];
         if (empty($firstArgument) && empty($secondArgument)) {
             throw new NotValidInputException('No execution command argument.');
         }
@@ -105,12 +105,13 @@ class InputArguments implements InputArgumentsInterface
         }
         
         $this->command = (string)$commandArr[0];
-        $this->setCommandParameters(array_shift($commandArr));
+        array_shift($commandArr);
+        $this->setCommandParameters($commandArr);
     }
     
     private function setCommandParameters(array $commandParameters): void
     {
-        if ($this->command === Commands::SUBSTITUTE && 3 > count($commandParameters)) {
+        if ($this->command === Commands::SUBSTITUTE && 2 > count($commandParameters)) {
             throw new NotValidInputException('Not enough command parameters.');
         }
         
@@ -128,11 +129,12 @@ class InputArguments implements InputArgumentsInterface
     
     private function setInputFilePath()
     {
-        global $argv;
-        $secondArgument = !$this->isConfigurationParameter && isset($argv[2]) ? (string)$argv[2] : '';
-        $thirdArgument = $this->isConfigurationParameter && isset($argv[3]) ? (string)$argv[3] : '';
+        $secondArgument = !$this->isConfigurationParameter && isset($this->commandArguments[2]) ? (string)$this->commandArguments[2] : '';
+        $thirdArgument = $this->isConfigurationParameter && isset($this->commandArguments[3]) ? (string)$this->commandArguments[3] : '';
         if ('' === $secondArgument && '' === $thirdArgument) {
             throw new NotValidInputException('No input file path argument.');
         }
+        
+        $this->inputFilePath = '' === $secondArgument ? $thirdArgument : $secondArgument;
     }
 }

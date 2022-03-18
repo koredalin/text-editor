@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\InputFileInterface;
 use App\Exceptions\NotValidInputFileException;
 
 /**
@@ -10,20 +9,19 @@ use App\Exceptions\NotValidInputFileException;
  *
  * @author Hristo
  */
-class InputFile implements InputFileInterface
+final class InputFileManager
 {
     private string $inputFilePath;
-
-    public function __construct(string $inputFilePath)
-    {
-        $this->inputFilePath = $inputFilePath;
-        $this->validateInputFile();
-    }
-    
     
     public function getInputFilePath(): string
     {
         return $this->inputFilePath;
+    }
+
+    public function setInputFilePath(string $inputFilePath): void
+    {
+        $this->inputFilePath = $inputFilePath;
+        $this->validateInputFile();
     }
     
     public function getFileText(): string
@@ -39,7 +37,7 @@ class InputFile implements InputFileInterface
     private function validateInputFile(): void
     {
         if (!file_exists($this->inputFilePath) || !is_file($this->inputFilePath)) {
-            throw new NotValidInputFileException('No file with file path: ' . $this->inputFilePath . '.');
+            throw new NotValidInputFileException('No file with file path: \'' . $this->inputFilePath . '\'.');
         }
         
         if (!'text/plain' === mime_content_type($this->inputFilePath)) {

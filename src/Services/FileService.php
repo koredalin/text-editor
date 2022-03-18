@@ -2,18 +2,18 @@
 
 namespace App\Services;
 
-use App\Models\InputFileInterface;
+use App\Models\InputFileManager;
 
 /**
  * Description of File
  *
  * @author Hristo
  */
-class File
+final class FileService
 {
-    private InputFileInterface $inputFile;
+    private InputFileManager $inputFile;
     
-    public function __construct(InputFileInterface $inputFile)
+    public function __construct(InputFileManager $inputFile)
     {
         $this->inputFile = $inputFile;
     }

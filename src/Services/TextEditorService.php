@@ -2,26 +2,26 @@
 
 namespace App\Services;
 
-use App\Models\InputArgumentsInterface;
+use App\Models\InputArguments;
 use App\Common\Commands;
-use App\Services\File as FileService;
-use App\Services\Console as ConsoleService;
+use App\Services\FileService;
+use App\Services\ConsoleService;
 
 /**
  * Description of TextEditor
  *
  * @author Hristo
  */
-class TextEditor
+final class TextEditorService
 {
-    private InputArgumentsInterface $inputArguments;
+    private InputArguments $inputArguments;
     
     private FileService $fileService;
     
     private ConsoleService $consoleService;
     
     public function __construct(
-        InputArgumentsInterface $inputArguments,
+        InputArguments $inputArguments,
         FileService $fileService,
         ConsoleService $consoleService
     ) {
@@ -37,7 +37,7 @@ class TextEditor
         }
     }
     
-    private function replaceFileText(): string
+    private function replaceFileText(): void
     {
         $text = $this->fileService->readFileText();
         $commandParams = $this->inputArguments->getCommandParameters();

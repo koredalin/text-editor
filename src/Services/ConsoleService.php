@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class Console
+final class ConsoleService
 {
     public function printText(string $text): void
     {
