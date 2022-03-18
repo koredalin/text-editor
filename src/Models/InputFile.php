@@ -14,13 +14,17 @@ class InputFile implements InputFileInterface
 {
     private string $inputFilePath;
 
-
     public function __construct(string $inputFilePath)
     {
         $this->inputFilePath = $inputFilePath;
-        $this->validateInputFilePath();
+        $this->validateInputFile();
     }
     
+    
+    public function getInputFilePath(): string
+    {
+        return $this->inputFilePath;
+    }
     
     public function getFileText(): string
     {
@@ -32,7 +36,7 @@ class InputFile implements InputFileInterface
         file_put_contents($this->inputFilePath, $text);
     }
     
-    private function validateInputFilePath(): void
+    private function validateInputFile(): void
     {
         if (!file_exists($this->inputFilePath) || !is_file($this->inputFilePath)) {
             throw new NotValidInputFileException('No file with file path: ' . $this->inputFilePath . '.');
