@@ -45,8 +45,10 @@ Provided tests for:
 - `App\Models\InputFileManager` integration tests.
 - `App\Services\TextEditorService` integration tests.
 
-I think that there is no need of mocked objects for this task yet. If it goes more complicated - there could have one.
+NOTES:
+------
 
-**NOTES:**
 - Make tests on Development server only.
-- Used php final classes only. No interfaces used in this app yet. Generally - there is no need from interfaces for entities and app services. This is my general point of view.
+- Used php final classes only. No interfaces used in this app yet. Generally - there is no need from interfaces for entities and app services.
+	[More Info](https://matthiasnoback.nl/2018/08/when-to-add-an-interface-to-a-class/#for-everything-else%3A-stick-to-a-%60final%60-class).
+- I think that there is no need of mocked objects for this task yet. If it goes more complicated - there could have one.
