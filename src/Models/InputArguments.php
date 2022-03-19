@@ -78,7 +78,8 @@ final class InputArguments
     
     private function setConfigurationParameters(): void
     {
-        $isParameter = isset($this->commandArguments[1]) && in_array((string)$this->commandArguments[1], StreamConfiguration::ALL_PARAMETERS, true);
+        $isParameter = isset($this->commandArguments[1])
+            && '-' === mb_substr((string)$this->commandArguments[1], 0, 1);
         if (!$isParameter) {
             return;
         }
@@ -88,7 +89,10 @@ final class InputArguments
         if ($isParameter && $parameter === StreamConfiguration::EDIT_IN_PLACE) {
             $this->isEdit = true;
             $this->isResultPrint = false;
+            return;
         }
+        
+        throw new NotValidInputException('Wrong input configuration parameter.');
     }
     
     private function setCommandWithParameters(): void
@@ -128,10 +132,7 @@ final class InputArguments
             $this->commandParameters[] = (string)$param;
         }
         
-        if (
-            $this->command === Commands::SUBSTITUTE
-            && (2 > count($this->commandParameters) || '' === $this->commandParameters[0])
-        ) {
+        if ($this->command === Commands::SUBSTITUTE && ('' === $this->commandParameters[0])) {
             throw new NotValidInputException('Not enough command parameters');
         }
     }
