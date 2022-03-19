@@ -9,6 +9,7 @@ use App\Services\TextEditorService;
 use Exception;
 use App\Exceptions\NotValidInputException;
 use App\Exceptions\NotValidInputFileException;
+use App\Exceptions\FileException;
 
 /**
  * Description of TextEditorController
@@ -37,7 +38,7 @@ class TextEditorController
             $this->inputArguments->setCommandArguments($commandArguments);
             $this->inputFileManager->setInputFilePath($this->inputArguments->getInputFilePath());
             $this->textEditorService->action();
-        } catch (NotValidInputException | NotValidInputFileException | Exception $ex) {
+        } catch (NotValidInputException | NotValidInputFileException | FileException | Exception $ex) {
             echo $ex->getMessage();
             return;
         }
