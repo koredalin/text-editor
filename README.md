@@ -16,8 +16,10 @@ INSTALLATION and CONFIGURATION
 
 ### Install via Composer
 
-1. Clone the the repo.
-2. Next - execute command `composer install` in project's main folder.
+1. Install PHP7.4.
+1.1. Publish php folder (or ignition file only) for global loading on your local PC.
+2. Clone the the repo.
+3. Next - execute command `composer install` in project's main folder.
 
 DOCUMENTATION
 -------------
