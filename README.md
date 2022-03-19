@@ -2,9 +2,7 @@
 
 ## Console based application
 
-
 The text editor is made by an interview task.
-
 
 Tested with Winodws CMD.
 Please, do not use the app with Windows Git Bash.
@@ -20,8 +18,6 @@ INSTALLATION and CONFIGURATION
 
 1. Clone the the repo.
 2. Next - execute command `composer install` in main folder.
-3. Make a database with the [SQL dump file]
-
 
 DOCUMENTATION
 -------------
@@ -52,3 +48,8 @@ NOTES:
 - Used php final classes only. No interfaces used in this app yet. Generally - there is no need from interfaces for entities and app services.
 	[More Info](https://matthiasnoback.nl/2018/08/when-to-add-an-interface-to-a-class/#for-everything-else%3A-stick-to-a-%60final%60-class).
 - I think that there is no need of mocked objects for this task yet. If it goes more complicated - there could have one.
+- What could be done more:
+	- Dependency injection files loading.
+	- When the list of commands and configuration parameters grows up.. - We can make Open-Close (SOLID) principle refactoring of:
+		- `App\Models\InputArguments::setConfigurationParameters(): void {}`,
+		- `App\Models\InputArguments::setCommandParameters(array $commandParameters): void {}`.
