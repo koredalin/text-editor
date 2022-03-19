@@ -10,7 +10,7 @@ namespace App\Common;
 class Commands
 {
     public const SUBSTITUTE = 's';
-    
+
     public const ALL_COMMANDS = [
         self::SUBSTITUTE
     ];

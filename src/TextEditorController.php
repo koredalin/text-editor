@@ -21,7 +21,7 @@ class TextEditorController
     private InputArguments $inputArguments;
     private InputFileManager $inputFileManager;
     private TextEditorService $textEditorService;
-    
+
     public function __construct(
         InputArguments $inputArguments,
         InputFileManager $inputFileManager,
@@ -31,7 +31,7 @@ class TextEditorController
         $this->inputFileManager = $inputFileManager;
         $this->textEditorService = $textEditorService;
     }
-    
+
     public function execute(array $commandArguments): void
     {
         try {

@@ -15,11 +15,11 @@ use App\Services\ConsoleService;
 final class TextEditorService
 {
     private InputArguments $inputArguments;
-    
+
     private FileService $fileService;
-    
+
     private ConsoleService $consoleService;
-    
+
     public function __construct(
         InputArguments $inputArguments,
         FileService $fileService,
@@ -29,14 +29,14 @@ final class TextEditorService
         $this->fileService = $fileService;
         $this->consoleService = $consoleService;
     }
-    
+
     public function action(): void
     {
         if (Commands::SUBSTITUTE === $this->inputArguments->getCommand()) {
             $this->replaceFileText();
         }
     }
-    
+
     private function replaceFileText(): void
     {
         $text = $this->fileService->readFileText();
@@ -45,7 +45,7 @@ final class TextEditorService
         if ($this->inputArguments->getIsEdit()) {
             $this->fileService->setFileText($newText);
         }
-        
+
         if ($this->inputArguments->getIsResultPrint()) {
             $this->consoleService->printText($newText);
         }
