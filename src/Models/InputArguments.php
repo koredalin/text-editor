@@ -93,14 +93,23 @@ final class InputArguments
     
     private function setCommandWithParameters(): void
     {
-        $firstArgument = !$this->isConfigurationParameter && isset($this->commandArguments[1]) ? explode('/', $this->commandArguments[1]) : [];
-        $secondArgument = $this->isConfigurationParameter && isset($this->commandArguments[2]) ? explode('/', $this->commandArguments[2]) : [];
-        if (empty($firstArgument) && empty($secondArgument)) {
+        $firstArgumentStr = !$this->isConfigurationParameter && isset($this->commandArguments[1]) ? (string)$this->commandArguments[1] : '';
+        $secondArgumentStr = $this->isConfigurationParameter && isset($this->commandArguments[2]) ? (string)$this->commandArguments[2] : '';
+        $commandStr = 2 <= mb_strlen($firstArgumentStr) ? $firstArgumentStr : $secondArgumentStr;
+        $commandFirstChar = mb_substr($commandStr, 0, 1);
+        $commandLastChar = mb_substr($commandStr, -1);
+        if ('\'' !== $commandFirstChar || '\'' !== $commandLastChar) {
+            throw new NotValidInputException('The command need to be in single quotes.');
+        }
+        
+        $commandStr = mb_substr($commandStr, 1);
+        $commandStr = mb_substr($commandStr, 0, -1);
+        if ('' === $commandStr) {
             throw new NotValidInputException('No execution command argument.');
         }
         
-        $commandArr = 0 < count($firstArgument) ? $firstArgument : $secondArgument;
-        if (!in_array((string)$commandArr[0], Commands::ALL_COMMANDS, true)) {
+        $commandArr = explode('/', $commandStr);
+        if (empty($commandArr) || !in_array((string)$commandArr[0], Commands::ALL_COMMANDS, true)) {
             throw new NotValidInputException('Unknown execution command: ' . (string)$commandArr[0] . '.');
         }
         

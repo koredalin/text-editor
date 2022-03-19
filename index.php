@@ -2,6 +2,8 @@
 
 require_once './vendor/autoload.php';
 
+mb_internal_encoding('UTF-8');
+
 use App\Models\InputArguments;
 use App\Models\InputFileManager;
 use App\Services\TextEditorService;

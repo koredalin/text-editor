@@ -22,6 +22,7 @@ class NotValidInputFileException extends \Exception
     public function __construct(string $message = "", int $code = 0, \Throwable $previous = null)
     {
         $message = get_class() . '. ' . $message;
+        $code = 422;
         parent::__construct($message, $code, $previous);
     }
 }
