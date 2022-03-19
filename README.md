@@ -17,7 +17,7 @@ INSTALLATION and CONFIGURATION
 ### Install via Composer
 
 1. Clone the the repo.
-2. Next - execute command `composer install` in main folder.
+2. Next - execute command `composer install` in project's main folder.
 
 DOCUMENTATION
 -------------
