@@ -31,11 +31,10 @@ class TextEditorController
         $this->textEditorService = $textEditorService;
     }
     
-    public function execute(): void
+    public function execute(array $commandArguments): void
     {
         try {
-            global $argv;
-            $this->inputArguments->setCommandArguments($argv);
+            $this->inputArguments->setCommandArguments($commandArguments);
             $this->inputFileManager->setInputFilePath($this->inputArguments->getInputFilePath());
             $this->textEditorService->action();
         } catch (NotValidInputException | NotValidInputFileException | Exception $ex) {

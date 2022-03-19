@@ -17,4 +17,4 @@ $consoleService = new ConsoleService();
 $fileService = new FileService($inputFileManager);
 $textEditorService = new TextEditorService($inputArguments, $fileService, $consoleService);
 $controller = new TextEditorController($inputArguments, $inputFileManager, $textEditorService);
-$controller->execute();
+$controller->execute($argv);
