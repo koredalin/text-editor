@@ -15,7 +15,7 @@ final class InputArguments
 {
     private array $commandArguments;
 
-    private bool $isEdit;
+    private bool $isFileEdit;
 
     private bool $isResultPrint;
 
@@ -34,9 +34,9 @@ final class InputArguments
         $this->setProperties();
     }
 
-    public function getIsEdit(): bool
+    public function getIsFileEdit(): bool
     {
-        return $this->isEdit;
+        return $this->isFileEdit;
     }
 
     public function getIsResultPrint(): bool
@@ -61,7 +61,7 @@ final class InputArguments
 
     private function setDefaultProperties(): void
     {
-        $this->isEdit = false;
+        $this->isFileEdit = false;
         $this->isResultPrint = true;
         $this->isConfigParam = false;
         $this->command = '';
@@ -87,7 +87,7 @@ final class InputArguments
         $this->isConfigParam = true;
         $parameter = (string)$this->commandArguments[1];
         if ($isParameter && $parameter === StreamConfiguration::EDIT_IN_PLACE) {
-            $this->isEdit = true;
+            $this->isFileEdit = true;
             $this->isResultPrint = false;
             return;
         }

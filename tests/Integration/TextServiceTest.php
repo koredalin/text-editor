@@ -76,7 +76,8 @@ class TextServiceTest extends TestCase
     public function testOkUpdatedFile(): void
     {
         $editor = self::generateTextEditor(self::CONFIG_PARAM_FILE_WRITE_COMMAND);
-        $editor->action();
+        $newText = $editor->updateText();
+        $editor->produceOutput($newText);
 
         // Test assertion 1
         $this->assertEquals(self::EXPECTED_TEXT, file_get_contents(self::DEFAULT_FILE_PATH));
@@ -85,7 +86,8 @@ class TextServiceTest extends TestCase
     public function testOkPrintUpdatedText(): void
     {
         $editor = self::generateTextEditor(self::DEFAULT_COMMAND);
-        $editor->action();
+        $newText = $editor->updateText();
+        $editor->produceOutput($newText);
 
         // Test assertion 1
         $this->assertEquals(self::DEFAULT_FILE_TEXT, file_get_contents(self::DEFAULT_FILE_PATH));

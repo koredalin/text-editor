@@ -74,7 +74,7 @@ class InputArgumentsValidationTest extends TestCase
         $args->setCommandArguments(self::DEFAULT_COMMAND);
 
         // Test assertion 1
-        $this->assertEquals(false, $args->getIsEdit());
+        $this->assertEquals(false, $args->getIsFileEdit());
         // Test assertion 2
         $this->assertEquals(true, $args->getIsResultPrint());
         // Test assertion 3
@@ -91,7 +91,7 @@ class InputArgumentsValidationTest extends TestCase
         $args->setCommandArguments(self::CONFIG_PARAM_FILE_WRITE_COMMAND);
 
         // Test assertion 1
-        $this->assertEquals(true, $args->getIsEdit());
+        $this->assertEquals(true, $args->getIsFileEdit());
         // Test assertion 2
         $this->assertEquals(false, $args->getIsResultPrint());
         // Test assertion 3

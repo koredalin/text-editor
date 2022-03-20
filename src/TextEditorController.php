@@ -37,7 +37,8 @@ class TextEditorController
         try {
             $this->inputArguments->setCommandArguments($commandArguments);
             $this->inputFileManager->setInputFilePath($this->inputArguments->getInputFilePath());
-            $this->textEditorService->action();
+            $newText = $this->textEditorService->updateText();
+            $this->textEditorService->produceOutput($newText);
         } catch (NotValidInputException | NotValidInputFileException | FileException | Exception $ex) {
             echo $ex->getMessage();
             return;
