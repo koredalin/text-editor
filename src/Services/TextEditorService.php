@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\InputArguments;
 use App\Common\Commands;
 use App\Services\FileService;
-use App\Services\ConsoleService;
 
 /**
  * Description of TextEditor
@@ -18,16 +17,12 @@ final class TextEditorService
 
     private FileService $fileService;
 
-    private ConsoleService $consoleService;
-
     public function __construct(
         InputArguments $inputArguments,
-        FileService $fileService,
-        ConsoleService $consoleService
+        FileService $fileService
     ) {
         $this->inputArguments = $inputArguments;
         $this->fileService = $fileService;
-        $this->consoleService = $consoleService;
     }
 
     /**
@@ -45,23 +40,6 @@ final class TextEditorService
         // This exception should not be thrown in general.
         // The exception should be already thrown in the InputArguments model.
         throw new \Exception('No valid text change command found.');
-    }
-
-    /**
-     * Outputs the parameter text as the command output configuration parameters.
-     *
-     * @param string $text
-     * @return void
-     */
-    public function produceOutput(string $text): void
-    {
-        if ($this->inputArguments->getIsFileEdit()) {
-            $this->fileService->setFileText($text);
-        }
-
-        if ($this->inputArguments->getIsResultPrint()) {
-            $this->consoleService->printText($text);
-        }
     }
 
     /**

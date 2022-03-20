@@ -7,8 +7,8 @@ namespace Tests\Integration;
 use PHPUnit\Framework\TestCase;
 use App\Models\InputArguments;
 use App\Models\InputFileManager;
-use App\Exceptions\NotValidInputFileException;
 use App\Services\TextEditorService;
+use App\Services\OutputService;
 use App\Services\FileService;
 use App\Services\ConsoleService;
 
@@ -59,17 +59,39 @@ class TextServiceTest extends TestCase
         }
     }
 
+    private static function generateFileService(): FileService
+    {
+        $file = self::generateInputFileManagerInstance();
+
+        return new FileService($file);
+    }
+
+    private static function generateConsoleService(): ConsoleService
+    {
+        return new ConsoleService();
+    }
+
     private static function generateTextEditor(array $inputArguments): TextEditorService
     {
         self::generateDefaultInputFile();
         $args = self::generateInputArgumentsInstance();
         $args->setCommandArguments($inputArguments);
-        $file = self::generateInputFileManagerInstance();
-        $fileService = new FileService($file);
-        $consoleService = new ConsoleService();
-        $editor = new TextEditorService($args, $fileService, $consoleService);
+        $fileService = self::generateFileService();
+        $editor = new TextEditorService($args, $fileService);
 
         return $editor;
+    }
+
+    private static function generateOutputService(array $inputArguments): OutputService
+    {
+        self::generateDefaultInputFile();
+        $args = self::generateInputArgumentsInstance();
+        $args->setCommandArguments($inputArguments);
+        $fileService = self::generateFileService();
+        $consoleService = self::generateConsoleService();
+        $outputService = new OutputService($args, $fileService, $consoleService);
+
+        return $outputService;
     }
 
 
@@ -77,7 +99,8 @@ class TextServiceTest extends TestCase
     {
         $editor = self::generateTextEditor(self::CONFIG_PARAM_FILE_WRITE_COMMAND);
         $newText = $editor->updateText();
-        $editor->produceOutput($newText);
+        $output = self::generateOutputService(self::CONFIG_PARAM_FILE_WRITE_COMMAND);
+        $output->produceOutput($newText);
 
         // Test assertion 1
         $this->assertEquals(self::EXPECTED_TEXT, file_get_contents(self::DEFAULT_FILE_PATH));
@@ -87,7 +110,8 @@ class TextServiceTest extends TestCase
     {
         $editor = self::generateTextEditor(self::DEFAULT_COMMAND);
         $newText = $editor->updateText();
-        $editor->produceOutput($newText);
+        $output = self::generateOutputService(self::DEFAULT_COMMAND);
+        $output->produceOutput($newText);
 
         // Test assertion 1
         $this->assertEquals(self::DEFAULT_FILE_TEXT, file_get_contents(self::DEFAULT_FILE_PATH));
